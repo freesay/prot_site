@@ -13,52 +13,91 @@ function openTab(evt, tabName) {
     evt.currentTarget.className += " active";
 }
 
-// Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
 
 
+const originalValues = {
+    uniquePrice: 0,
+    quantities: []
+};
+
+function saveInitialValues() {
+    const table = document.getElementById('serviceTable');
+    const rows = table.getElementsByTagName('tr');
+    const uniquePriceInput = rows[0].querySelector('input.input');
+    originalValues.uniquePrice = parseFloat(uniquePriceInput.value.trim().replace(',', '.')) || 0;
+
+    originalValues.quantities = [];
+    for (let i = 1; i < rows.length; i++) {
+        const qtyCell = rows[i].querySelector('.quantity');
+        const quantity = parseInt(qtyCell.textContent.trim()) || 0;
+    originalValues.quantities.push({ rowIndex: i, quantity: quantity });
+    }
+}
+
+function resetAll() {
+    const table = document.getElementById('serviceTable');
+    const rows = table.getElementsByTagName('tr');
+
+    rows[0].querySelector('input.input').value = originalValues.uniquePrice;
 
 
+    originalValues.quantities.forEach(item => {
+        const qtyCell = rows[item.rowIndex].querySelector('.quantity');
+        qtyCell.textContent = item.quantity;
+    });
 
+    updateSum();
+}
 
+function updateSum() {
+    const table = document.getElementById('serviceTable');
+    const rows = table.getElementsByTagName('tr');
 
+    const uniquePriceInput = rows[0].querySelector('input.input');
+    const uniquePrice = parseFloat(uniquePriceInput.value.trim().replace(',', '.')) || 0;
 
+    let totalSum = 0;
+    const priceLimit = 100000;
 
+    if (uniquePrice <= priceLimit) {
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            const priceCell = row.querySelector('.price');
+            const price = parseFloat(priceCell.textContent.trim().replace(',', '.')) || 0;
+            const quantityCell = row.querySelector('.quantity');
+            const quantity = parseInt(quantityCell.textContent.trim()) || 0;
+            totalSum += price * quantity;
+        }
+    } else {
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            if (row.classList && row.classList.contains('ignore')) {
+                continue;
+            }
+            const priceCell = row.querySelector('.price');
+            const price = parseFloat(priceCell.textContent.trim().replace(',', '.')) || 0;
+            const quantityCell = row.querySelector('.quantity');
+            const quantity = parseInt(quantityCell.textContent.trim()) || 0;
+            totalSum += price * quantity;
+        }
+        totalSum += uniquePrice * 0.12;
+    }
 
+    document.getElementById('sumDisplay').textContent = totalSum;
+}
 
-
-
-// функция для изменения количества товара
 function changeQty(btn, delta) {
     const row = btn.closest('tr');
     const qtyCell = row.querySelector('.quantity');
-    let qty = parseInt(qtyCell.textContent);
+    let qty = parseInt(qtyCell.textContent.trim()) || 0;
     qty += delta;
     if (qty < 0) qty = 0;
     qtyCell.textContent = qty;
-    updateTotal();
+    updateSum();
 }
 
-// функция для подсчета общей стоимости
-function updateTotal() {
-    const rows = document.querySelectorAll('#serviceTable tr');
-    let total = 0;
-    rows.forEach(row => {
-        const price = parseFloat(row.querySelector('.price').textContent);
-        const qty = parseInt(row.querySelector('.quantity').textContent);
-        total += price * qty;
-    });
-    document.getElementById('totalSum').textContent = total;
-}
-
-// функция для сброса всех значений
-function resetAll() {
-    const qtyCells = document.querySelectorAll('.quantity');
-    qtyCells.forEach(cell => {
-        cell.textContent = '0';
-    });
-    updateTotal();
-}
-
-// Обновляем сумму при загрузке страницы
-window.onload = updateTotal;
+window.onload = () => {
+    saveInitialValues();
+    updateSum();
+};
