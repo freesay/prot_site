@@ -52,12 +52,24 @@
                     Кухонный гарнитур стоимостью от 100 000р. и выше рассчитывается из розничной цены заказа.<br>
                     <b>Стоимость сборки 12%</b>.<br>
                     Остальные работы оплачиваются согласно прайсу дополнительных услуг.<br><br>
-                    Выезд за пределы города Краснотурьинск оплачивается дополнительно, из расчета: <b>40 рублей за 1 км в одну сторону</b>.<br>
-                    (Расчет по Яндекс.Картам от центра города)<br><br>
+                    Выезд за пределы города Краснотурьинск оплачивается дополнительно, из расчета: <b>40 рублей за 1 км в одну сторону</b>.<br><br>
+                    (Расчет по Яндекс.Картам от центра города)<br>
                     Выезд осуществляется в города Карпинск и Волчанск.</p>
                 </div>
                 <div id="tab3" class="tab-content">
                     <div class="container-price-calculator">
+                        <div class="description">
+                            <h3>Калькулятор услуг</h3>
+                            <p>Вы можете самостоятельно произвести расчеты сборки и монтажа кухонного гарнитура воспользовавшись нашим онлайн калькулятором.<br>
+                            Все цены соответствуют рыночным.<br>
+                            Услуги установки столешницы, стеновой панели, планок на столешницу и стеновую панель, плитуса и цоколя,<br>
+                            а так же навесы модулей (ящиков, полок и т.п.) следует считать только в том случае,<br>
+                            если ваши потребности выходят за рамки фабричного проекта кухонного гарнитура.</p>
+                            <p>Напоминание:<br>
+                            Кухонный гарнитур стоимостью до 100 000р. (включительно) рассчитывается по тарифу: <b>1200 рублей</b> за один модуль.<br>
+                            Кухонный гарнитур стоимостью от 100 000р. и выше рассчитывается из розничной цены заказа и составляет <b>12%</b>.<br>
+                            Данный калькулятор учитывает это.</p>
+                        </div>
                         <table id="serviceTable">
                             <colgroup>
                                 <col class="col-1">
@@ -67,15 +79,26 @@
                                 <col class="col-5">
                             </colgroup>
                             <tr>
-                                <td style="text-align: left;">Количество модулей</td>
+                                <td style="text-align: left;">Стоимость кухонного гарнитура</td>
+                                <td colspan="4"><input class="input" type="text" value="0" style="text-align: right;" oninput="updateSum()"></td>
+                            </tr>
+                            <tr class="ignore">
+                                <td style="text-align: left;">Количество модулей (шт.)</td>
                                 <td class="price">1200</td>
                                 <td><button class="box-button" onclick="changeQty(this, -1)">-</button></td>
                                 <td class="quantity">0</td>
                                 <td><button class="box-button" onclick="changeQty(this, 1)">+</button></td>
                             </tr>
                             <tr>
-                                <td style="text-align: left;">Установка столешницы (п.м)</td>
+                                <td style="text-align: left;">Установка столешницы (п.м.)</td>
                                 <td class="price">500</td>
+                                <td><button class="box-button" onclick="changeQty(this, -1)">-</button></td>
+                                <td class="quantity">0</td>
+                                <td><button class="box-button" onclick="changeQty(this, 1)">+</button></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;">Распиш столешницы (шт.)</td>
+                                <td class="price">600</td>
                                 <td><button class="box-button" onclick="changeQty(this, -1)">-</button></td>
                                 <td class="quantity">0</td>
                                 <td><button class="box-button" onclick="changeQty(this, 1)">+</button></td>
@@ -95,7 +118,7 @@
                                 <td><button class="box-button" onclick="changeQty(this, 1)">+</button></td>
                             </tr>
                             <tr>
-                                <td style="text-align: left;">Установка плинтуса (п.м)</td>
+                                <td style="text-align: left;">Установка плинтуса (п.м.)</td>
                                 <td class="price">70</td>
                                 <td><button class="box-button" onclick="changeQty(this, -1)">-</button></td>
                                 <td class="quantity">0</td>
@@ -286,7 +309,7 @@
                         </table>
                     </div>
                     <div>
-                        <br>Итоговая стоимость: <b><span id="totalSum">0</span></b> руб.<br>
+                        <br>Итоговая стоимость: <b><span id="sumDisplay">0</span></b> руб.<br>
                         Цены указаны в рублях за единицу товара (шт.) или погонный метр (п.м.)<br><br>
                         <button class="reset-button" onclick="resetAll()">Сбросить все</button>
                     </div>
@@ -306,4 +329,3 @@
     </div>
     <script src="static/js/scripts.js"></script>
 </body>
-
