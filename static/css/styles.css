@@ -64,6 +64,18 @@ body, html {
     margin-bottom: 50px;
 }
 
+@media screen and (max-width: 480px) {
+    .container {
+        width: 90%;
+    }
+
+    .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+}
+}
 
 /*-----------------------------------------------------------------*/
 
@@ -181,8 +193,12 @@ body, html {
 
 
 .container-price-calculator {
-    display: flex;
-    flex-wrap: wrap;
+    justify-content: center
+}
+
+.description {
+    width: 100%;
+    text-align: center;
 }
 
 
